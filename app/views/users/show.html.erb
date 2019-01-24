@@ -1,0 +1,6 @@
+<p>
+  <strong>Artist name:</strong>
+  <%= @user.artist_name %>
+</p>
+
+<%= link_to "Book Now", new_booking_path(artist_name: @user.artist_name) %>
