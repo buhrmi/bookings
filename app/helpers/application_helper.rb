@@ -6,7 +6,7 @@ module ApplicationHelper
       client_id: Rails.application.credentials.google_sign_in[:client_id],
       client_secret: Rails.application.credentials.google_sign_in[:client_secret],
       authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
-      scope: 'email profile https://www.googleapis.com/auth/calendar.events',
+      scope: 'email profile https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar.readonly',
       redirect_uri: sessions_url,
       additional_parameters: {"access_type" => "offline", 'prompt' => 'consent'}
     })

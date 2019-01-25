@@ -1,3 +1,5 @@
+require 'google/apis/oauth2_v2'
+
 class SessionsController < ApplicationController
   skip_before_action :require_user, only: [:show]
 
@@ -29,17 +31,19 @@ class SessionsController < ApplicationController
       
       response = client.fetch_access_token!
 
-      service = Google::Apis::CalendarV3::CalendarService.new
+      service = Google::Apis::Oauth2V2::Oauth2Service.new
       service.authorization = client
+      user_info = service.get_userinfo
 
-      # TODO: use identity.avatar_url for profile pic
-      user = User.find_or_create_by(google_id: identity.user_id)
+      # TODO: use user_info.picture for profile pic
+      user = User.find_or_create_by(google_id: user_info.id)
       user.update_attributes(
         google_access_token: response['access_token'],
         google_refresh_token: response['refresh_token'],
-        name: identity.name,
-        email: identity.email_address,
-        email_verified: identity.email_verified?
+        name: user_info.name,
+        email: user_info.email,
+        email_verified: user_info.verified_email
       )
+      user
     end
 end

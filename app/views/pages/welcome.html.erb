@@ -1,15 +1,19 @@
 <h1>Welcome to Audissey</h1>
 
-<p>The only booking platform with GUARANTEED BOOKINGS</p>
-
 <% if current_user %>
-  <% if current_user.artist_name %>
+  <% if current_user.artist_name && current_user.google_calendar_id %>
     <p>
-      All right, <%= current_user.artist_name %>. You're all set! Now share your profile link to get your bookings.
+      All right, <%= current_user.artist_name %>. You're all set! Next, share your profile and get booked: <%= link_to user_url(current_user.artist_name), user_url(current_user.artist_name) %>
     </p>
-    <%= link_to user_url(current_user.artist_name) %>
-  <% else %>
-    <p>Hi <%= current_user.name %>, so nice to have you.</p>
+    
+  <% elsif !current_user.google_calendar_id %>
+    All right, <%= current_user.name %>. Please select the calendar that you want to use to manage your bookings.
+    <%= form_for current_user do |f| %>
+      <%= f.select :google_calendar_id, current_user.calendars.items.collect { |calendar| [calendar.summary, calendar.id] } %>
+      <%= f.submit "Use this calendar" %>
+    <% end%>
+  <% elsif !current_user.artist_name %>
+    <p>Okay. What should your artist name be?</p>
     <%= form_for current_user do |f| %>
       <p>Please set your artist name</p>
       <%= f.text_field :artist_name %>
@@ -18,6 +22,5 @@
   <% end %>
   <%= link_to "Log out", sessions_path, method: 'delete' %>
 <% else %>
-  <p>We are using Google Calendar as the authoritative source to manage availability.</p>
-  <%= link_to 'Sign in with my Google account', google_calendar_auth_path %>
+  <%= link_to 'Connect my Calendar', google_calendar_auth_path %>
 <% end %>

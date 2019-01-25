@@ -26,6 +26,10 @@ ActiveRecord::Schema.define(version: 2019_01_24_031938) do
     t.string "artist_name"
     t.string "email"
     t.boolean "email_verified"
+    t.string "google_access_token"
+    t.string "google_refresh_token"
+    t.string "google_calendar_id"
+    t.boolean "admin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
