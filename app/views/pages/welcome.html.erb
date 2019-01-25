@@ -1,9 +1,8 @@
-<h1>Welcome to buhrmi bookings</h1>
-
+<h1>Get fucking booked</h1>
 <% if current_user %>
   <% if current_user.artist_name && current_user.google_calendar_id %>
     <p>
-      All right, <%= current_user.artist_name %>. You're all set! Next, share your profile and get booked: <%= link_to user_url(current_user.artist_name), user_url(current_user.artist_name) %>
+      All right, <%= current_user.artist_name %>. You're all set! Now share your profile and get the fuck booked: <%= link_to user_url(current_user.artist_name), user_url(current_user.artist_name) %>
     </p>
     
   <% elsif !current_user.google_calendar_id %>
@@ -22,5 +21,6 @@
   <% end %>
   <%= link_to "Log out", sessions_path, method: 'delete' %>
 <% else %>
-  <%= link_to 'Connect my Calendar', google_calendar_auth_path %>
+  <p>Another attempt at a DJ booking app</p>
+  <%= link_to 'Connect to Google Calendar', google_calendar_auth_path %>
 <% end %>
